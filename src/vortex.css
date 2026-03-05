@@ -1,0 +1,317 @@
+/* Time Vortex Transition Animations */
+
+/* Vortex Overlay */
+.vortex-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.vortex-overlay.active {
+  display: block;
+  pointer-events: auto;
+}
+
+.vortex-overlay canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Vortex SVG Animation */
+.vortex-container {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 9998;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(0, 168, 255, 0.3) 0%, rgba(5, 8, 18, 0.9) 50%, rgba(0, 0, 0, 1) 100%),
+    conic-gradient(from 0deg at 50% 50%, rgba(0, 255, 255, 0.1), rgba(212, 175, 55, 0.1), rgba(0, 168, 255, 0.1), rgba(0, 255, 255, 0.1));
+  background-size: 100% 100%, 200% 200%;
+  animation: vortex-bg-rotate 3s linear infinite;
+  overflow: hidden;
+}
+
+.vortex-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}
+
+.vortex-container.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vortex-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vortex-ring {
+  transform-origin: 50% 50%;
+  animation: vortex-spin 2s linear infinite;
+}
+
+@keyframes vortex-bg-rotate {
+  0% {
+    background-position: 0% 0%, 0% 0%;
+  }
+  100% {
+    background-position: 0% 0%, 100% 100%;
+  }
+}
+
+.vortex-spiral-path {
+  transform-origin: 50% 50%;
+  animation: vortex-spiral 2.5s ease-in-out infinite;
+}
+
+@keyframes vortex-spiral {
+  0% {
+    transform: rotate(0deg) scale(0.5);
+    opacity: 0.8;
+    stroke-dasharray: 0 100;
+  }
+  50% {
+    opacity: 1;
+    stroke-dasharray: 50 50;
+  }
+  100% {
+    transform: rotate(360deg) scale(2);
+    opacity: 0;
+    stroke-dasharray: 100 0;
+  }
+}
+
+.vortex-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  transform: translate(-50%, -50%);
+}
+
+.vortex-center-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(0, 255, 255, 1), rgba(0, 168, 255, 0.8), rgba(212, 175, 55, 0.4));
+  border-radius: 50%;
+  animation: pulse-vortex 2s ease-in-out infinite;
+  box-shadow: 
+    0 0 100px rgba(0, 168, 255, 1), 
+    0 0 200px rgba(0, 255, 255, 0.8), 
+    inset 0 0 60px rgba(0, 255, 255, 0.6),
+    inset 0 0 120px rgba(212, 175, 55, 0.3);
+}
+
+@keyframes pulse-vortex {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
+}
+
+.vortex-spiral {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+}
+
+.vortex-spiral-line {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, rgba(0, 168, 255, 0.8), transparent);
+  animation: spiral-in 1.5s ease-in forwards;
+}
+
+@keyframes spiral-in {
+  0% {
+    width: 0;
+    opacity: 1;
+    filter: blur(0);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(2px);
+  }
+  100% {
+    width: 400px;
+    opacity: 0;
+    filter: blur(10px);
+  }
+}
+
+/* Text Elements */
+.vortex-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  color: var(--tardis-bright);
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.vortex-text h2 {
+  font-size: 2.5rem;
+  margin: 0;
+  text-shadow: 0 0 30px rgba(0, 168, 255, 0.8);
+  animation: text-emerge 2.5s ease-out forwards;
+}
+
+@keyframes text-emerge {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+    text-shadow: 0 0 0 rgba(0, 168, 255, 0);
+  }
+  20% {
+    opacity: 1;
+    text-shadow: 0 0 30px rgba(0, 168, 255, 0.8);
+  }
+  80% {
+    opacity: 1;
+    text-shadow: 0 0 30px rgba(0, 168, 255, 0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+    text-shadow: 0 0 60px rgba(0, 168, 255, 0);
+  }
+}
+
+.vortex-scanner {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 168, 255, 0.1),
+    rgba(0, 168, 255, 0.1) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  animation: scan-effect 2.5s ease-in forwards;
+  pointer-events: none;
+}
+
+@keyframes scan-effect {
+  0% {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Energy Waves */
+.vortex-energy-waves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+}
+
+.energy-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 200px;
+  background: linear-gradient(to bottom, rgba(0, 255, 255, 0.8), transparent);
+  transform-origin: 50% 100%;
+  animation: energy-pulse 2s ease-in-out infinite;
+}
+
+@keyframes energy-pulse {
+  0%, 100% {
+    height: 150px;
+    opacity: 0.6;
+  }
+  50% {
+    height: 250px;
+    opacity: 1;
+  }
+}
+
+.particle {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  animation: particle-float 1.5s ease-in forwards;
+}
+
+@keyframes particle-float {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0.1);
+  }
+}
+
+/* White Flash Effect */
+.vortex-flash {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 10000;
+  pointer-events: none;
+  display: none;
+  animation: flash-out 0.5s ease-out forwards;
+}
+
+.vortex-flash.active {
+  display: block;
+}
+
+@keyframes flash-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vortex-text h2 {
+    font-size: 1.8rem;
+  }
+
+  .vortex-center {
+    width: 80px;
+    height: 80px;
+  }
+
+  .vortex-spiral {
+    width: 150px;
+    height: 150px;
+  }
+}
