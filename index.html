@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="src/vortex.css">
   </head>
   <body>
+    <!-- Spaceship Loader -->
+    <div id="spaceship-loader">
+      <div class="spaceship-cube">
+        <div class="face front"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+    </div>
     <!-- Navigation Bar -->
     <nav class="navbar">
       <div class="nav-container">
@@ -143,6 +154,17 @@
       </div>
     </footer>
 
+    <script>
+      // Spaceship Loader
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loader = document.getElementById('spaceship-loader');
+          if (loader) {
+            loader.style.display = 'none';
+          }
+        }, 5000); // 5 seconds
+      });
+    </script>
     <script src="src/vortex.js"></script>
     <script src="src/dropdown.js"></script>
   </body>

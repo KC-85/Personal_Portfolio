@@ -200,6 +200,82 @@
   }
 }
 
+/* Spaceship Loader */
+#spaceship-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--quantum-dark) 0%, var(--gallifrey-dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: loader-fade-out 1s ease-in-out 5s forwards;
+}
+
+.spaceship-cube {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: spin-cube 4s linear infinite;
+}
+
+.spaceship-cube .face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 2px solid var(--tardis-bright);
+  background: rgba(0, 168, 255, 0.1);
+  box-shadow: inset 0 0 20px rgba(0, 168, 255, 0.3);
+}
+
+.spaceship-cube .front {
+  transform: translateZ(50px);
+}
+
+.spaceship-cube .back {
+  transform: translateZ(-50px) rotateY(180deg);
+}
+
+.spaceship-cube .right {
+  transform: rotateY(90deg) translateZ(50px);
+}
+
+.spaceship-cube .left {
+  transform: rotateY(-90deg) translateZ(50px);
+}
+
+.spaceship-cube .top {
+  transform: rotateX(90deg) translateZ(50px);
+}
+
+.spaceship-cube .bottom {
+  transform: rotateX(-90deg) translateZ(50px);
+}
+
+@keyframes spin-cube {
+  from {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+@keyframes loader-fade-out {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 .vortex-scanner {
   position: absolute;
   inset: 0;
