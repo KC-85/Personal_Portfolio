@@ -1,0 +1,1 @@
+"""FastAPI contact backend package."""
