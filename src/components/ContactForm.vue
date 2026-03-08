@@ -59,6 +59,8 @@
 </template>
 
 <script>
+const CONTACT_ENDPOINT = import.meta.env.VITE_CONTACT_API_URL || '/api/contact'
+
 export default {
   name: 'ContactForm',
   data() {
@@ -104,6 +106,34 @@ export default {
       return emailRegex.test(email)
     },
 
+    async sendContactRequest(payload) {
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+
+      let body = null
+
+      try {
+        body = await response.json()
+      } catch {
+        body = null
+      }
+
+      if (!response.ok) {
+        const validationMessage = Array.isArray(body?.detail)
+          ? body.detail.map((issue) => issue.msg).join(' ')
+          : null
+        const errorMessage = validationMessage || body?.detail || body?.message || 'Failed to send message. Please try again.'
+        throw new Error(errorMessage)
+      }
+
+      return body
+    },
+
     async submitForm() {
       if (!this.validateForm()) {
         return
@@ -113,11 +143,7 @@ export default {
       this.submitMessage = null
 
       try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000))
-
-        // In a real app, you would send this to your backend
-        console.log('Form submitted:', this.form)
+        await this.sendContactRequest(this.form)
 
         this.submitMessage = {
           type: 'success',
@@ -134,7 +160,7 @@ export default {
       } catch (error) {
         this.submitMessage = {
           type: 'error',
-          text: 'Failed to send message. Please try again.'
+          text: error instanceof Error ? error.message : 'Failed to send message. Please try again.'
         }
       } finally {
         this.isSubmitting = false
