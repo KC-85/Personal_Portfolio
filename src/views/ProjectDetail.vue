@@ -12,7 +12,7 @@
     </section>
 
     <!-- Project Content -->
-    <section class="project-content">
+    <section v-if="project" class="project-content">
       <div class="project-container">
         <!-- Project Visual -->
         <div class="project-visual">
@@ -53,6 +53,16 @@
               <span>Live Demo</span>
             </a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section v-else class="project-content">
+      <div class="project-container">
+        <div class="project-overview project-missing">
+          <h2>Project Not Found</h2>
+          <p>The project you requested does not exist.</p>
+          <router-link to="/projects" class="btn btn-primary">Back to Projects</router-link>
         </div>
       </div>
     </section>
@@ -131,7 +141,7 @@ export default {
   },
   computed: {
     project() {
-      return this.projects.find(p => p.id === parseInt(this.id)) || {}
+      return this.projects.find(p => p.id === parseInt(this.id, 10)) || null
     }
   }
 }
@@ -224,6 +234,11 @@ export default {
   line-height: 1.7;
   margin-bottom: 2rem;
   color: var(--text-secondary);
+}
+
+.project-missing {
+  text-align: center;
+  padding: 4rem 0;
 }
 
 .project-section {

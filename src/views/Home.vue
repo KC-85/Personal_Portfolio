@@ -10,7 +10,7 @@
         </p>
         <div class="hero-buttons">
           <button @click="goToProjects" class="btn btn-primary">View My Work</button>
-          <a href="#contact" @click="scrollToSection('contact')" class="btn btn-secondary">Get In Touch</a>
+          <button type="button" @click="scrollToSection('contact')" class="btn btn-secondary">Get In Touch</button>
         </div>
       </div>
       <div class="hero-background"></div>
