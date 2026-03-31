@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-export default defineConfig(({ command }) => ({
+export default defineConfig({
   plugins: [vue()],
-  base: command === 'build' ? '/Personal_Portfolio/' : '/',
+  base: '/',
   root: '.',
   server: {
     proxy: {
@@ -16,4 +16,4 @@ export default defineConfig(({ command }) => ({
   build: {
     outDir: 'dist'
   }
-}))
+})
