@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       activeCategory: 'All',
-      categories: ['All', 'Vue.js', 'Three.js', 'WebGL', 'Animation'],
+      categories: ['All', 'HTML', 'CSS', 'JavaScript', 'jQuery', 'Vue.js', 'Python', 'Django', 'FastAPI'],
       projects
     }
   },
