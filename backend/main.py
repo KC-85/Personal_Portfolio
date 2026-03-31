@@ -187,8 +187,11 @@ def submit_contact_form(submission: ContactSubmission) -> ContactResponse:
             send_submission_email(submission, submission_id, received_at)
             logger.info("Email notification sent for submission %s", submission_id)
         except (OSError, smtplib.SMTPException) as error:
-            # Do not fail the request after persistence; email notifications are best-effort.
             logger.exception("Email notification failed for submission %s", submission_id)
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail=f"Message saved but email delivery failed: {error}",
+            ) from error
     else:
         logger.warning("Email delivery disabled for submission %s", submission_id)
 
