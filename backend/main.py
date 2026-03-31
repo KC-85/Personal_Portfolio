@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 import smtplib
@@ -21,6 +22,7 @@ DATA_DIR = BASE_DIR / "data"
 DEFAULT_STORAGE_PATH = DATA_DIR / "contact_submissions.jsonl"
 
 load_dotenv(BASE_DIR / ".env")
+logger = logging.getLogger(__name__)
 
 
 class ContactSubmission(BaseModel):
@@ -183,10 +185,8 @@ def submit_contact_form(submission: ContactSubmission) -> ContactResponse:
         try:
             send_submission_email(submission, submission_id, received_at)
         except (OSError, smtplib.SMTPException) as error:
-            raise HTTPException(
-                status_code=status.HTTP_502_BAD_GATEWAY,
-                detail="Message was saved but the email notification could not be delivered.",
-            ) from error
+            # Do not fail the request after persistence; email notifications are best-effort.
+            logger.exception("Email notification failed for submission %s", submission_id)
 
     return ContactResponse(
         message="Message received successfully.",
