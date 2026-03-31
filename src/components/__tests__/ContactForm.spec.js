@@ -1,6 +1,12 @@
 import { mount } from '@vue/test-utils'
 import ContactForm from '../ContactForm.vue'
 
+async function flushSubmitCycle(wrapper) {
+  await Promise.resolve()
+  await wrapper.vm.$nextTick()
+  await Promise.resolve()
+}
+
 describe('ContactForm', () => {
   it('shows validation errors for empty fields', async () => {
     const wrapper = mount(ContactForm)
@@ -28,6 +34,7 @@ describe('ContactForm', () => {
     await wrapper.get('#subject').setValue('Portfolio enquiry')
     await wrapper.get('#message').setValue('I would like to talk about a project.')
     await wrapper.get('form').trigger('submit.prevent')
+    await flushSubmitCycle(wrapper)
 
     expect(fetchSpy).toHaveBeenCalledWith('/api/contact', expect.objectContaining({
       method: 'POST'
@@ -58,6 +65,7 @@ describe('ContactForm', () => {
     await wrapper.get('#subject').setValue('Portfolio enquiry')
     await wrapper.get('#message').setValue('I would like to talk about a project.')
     await wrapper.get('form').trigger('submit.prevent')
+    await flushSubmitCycle(wrapper)
 
     expect(wrapper.text()).toContain('Unable to store your message right now.')
 
