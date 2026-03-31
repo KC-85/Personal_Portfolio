@@ -54,74 +54,15 @@
 </template>
 
 <script>
+import { projects } from '../data/projects'
+
 export default {
   name: 'Projects',
   data() {
     return {
       activeCategory: 'All',
       categories: ['All', 'Vue.js', 'Three.js', 'WebGL', 'Animation'],
-      projects: [
-        {
-          id: 1,
-          title: 'Interactive 3D Portfolio',
-          description: 'A stunning 3D portfolio built with Three.js and Vue.js featuring interactive elements and smooth animations.',
-          category: 'Three.js',
-          tags: ['Three.js', 'Vue.js', 'WebGL', '3D Graphics'],
-          longDescription: 'This project showcases advanced 3D web development techniques using Three.js and Vue.js. Features include interactive camera controls, particle systems, and optimized rendering for smooth performance across devices.',
-          technologies: ['Three.js', 'Vue.js', 'WebGL', 'JavaScript', 'GLSL Shaders'],
-          features: ['Interactive 3D scenes', 'Particle animations', 'Responsive design', 'Performance optimization'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        },
-        {
-          id: 2,
-          title: 'Vue.js Dashboard',
-          description: 'Modern admin dashboard with real-time data visualization and interactive charts.',
-          category: 'Vue.js',
-          tags: ['Vue.js', 'Chart.js', 'API', 'Dashboard'],
-          longDescription: 'A comprehensive admin dashboard built with Vue.js featuring real-time data updates, interactive charts, and a responsive design. Includes user authentication, data management, and analytics features.',
-          technologies: ['Vue.js', 'Chart.js', 'Axios', 'Vue Router', 'Pinia'],
-          features: ['Real-time data', 'Interactive charts', 'User authentication', 'Responsive layout'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        },
-        {
-          id: 3,
-          title: 'GSAP Animation Library',
-          description: 'Custom animation library for smooth web interactions and micro-animations.',
-          category: 'Animation',
-          tags: ['GSAP', 'JavaScript', 'Animation', 'Performance'],
-          longDescription: 'A custom animation library built on top of GSAP (GreenSock Animation Platform) providing reusable animation components and smooth transitions for web applications.',
-          technologies: ['GSAP', 'JavaScript', 'CSS', 'SVG', 'Canvas'],
-          features: ['Smooth animations', 'Reusable components', 'Performance optimized', 'Cross-browser support'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        },
-        {
-          id: 4,
-          title: 'WebGL Particle System',
-          description: 'GPU-accelerated particle effects for modern web applications.',
-          category: 'WebGL',
-          tags: ['WebGL', 'Shaders', 'Performance', '3D'],
-          longDescription: 'High-performance particle system built with WebGL and custom shaders. Features include dynamic particle generation, physics simulation, and optimized rendering techniques.',
-          technologies: ['WebGL', 'GLSL', 'JavaScript', 'Shaders', 'WebGL2'],
-          features: ['GPU acceleration', 'Custom shaders', 'Physics simulation', 'Performance monitoring'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        },
-        {
-          id: 5,
-          title: 'Vue Component Library',
-          description: 'Reusable Vue components for rapid development and consistent UI.',
-          category: 'Vue.js',
-          tags: ['Vue.js', 'Components', 'Design System', 'UI'],
-          longDescription: 'A comprehensive component library built with Vue.js featuring reusable UI components, consistent design system, and accessibility features for rapid application development.',
-          technologies: ['Vue.js', 'SCSS', 'Storybook', 'Jest', 'TypeScript'],
-          features: ['Reusable components', 'Design system', 'Accessibility', 'Testing suite'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        }
-      ]
+      projects
     }
   },
   methods: {
