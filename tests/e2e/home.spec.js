@@ -23,7 +23,7 @@ test('projects page opens a project detail page', async ({ page }) => {
   await page.locator('.project-card-link').first().click()
 
   await expect(page).toHaveURL(/#\/projects\/1$/)
-  await expect(page.getByRole('heading', { name: 'Interactive 3D Portfolio' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Kinder Minds' })).toBeVisible()
 })
 
 test('project routes work as direct deep links', async ({ page }) => {
@@ -40,7 +40,7 @@ test('projects filter narrows visible cards', async ({ page }) => {
   await page.getByRole('button', { name: 'Vue.js' }).click()
 
   await expect(page.locator('.project-card-link')).toHaveCount(2)
-  await expect(page.getByText('Vue Component Library')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Vue Component Library' })).toBeVisible()
 })
 
 test('contact navigation returns to the home contact section', async ({ page }) => {
@@ -57,5 +57,5 @@ test('invalid project ids show a fallback state', async ({ page }) => {
   await gotoRoute(page, '/projects/999')
 
   await expect(page.locator('#spaceship-loader')).toBeHidden({ timeout: 7000 })
-  await expect(page.getByRole('heading', { name: 'Project Not Found' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Project Not Found', level: 2 })).toBeVisible()
 })
