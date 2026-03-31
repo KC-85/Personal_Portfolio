@@ -6,7 +6,7 @@
         <h1 class="hero-title">Kristian Cross</h1>
         <p class="hero-subtitle">Web Developer | Creative Coder</p>
         <p class="hero-description">
-          Building immersive digital experiences with HTML, Vue, GSAP, and Three.js
+          Building immersive digital experiences with HTML, CSS, JavaScript (ES6+/jQuery/Vue), Python, Django, FastAPI
         </p>
         <div class="hero-buttons">
           <button @click="goToProjects" class="btn btn-primary">View My Work</button>
@@ -23,21 +23,25 @@
         <div class="about-content">
           <div class="about-text">
             <p class="about-intro">
-              Passionate web developer with expertise in creating immersive digital experiences.
+              Passionate web developer with expertise in creating dynamic digital experiences.
               I specialize in modern web technologies and love bringing creative ideas to life.
             </p>
             <div class="skills-grid">
               <div class="skill-card">
                 <h3>Frontend</h3>
-                <p>Vue.js, React, HTML5, CSS3, JavaScript (ES6+)</p>
+                <p>Vue.js, jQuery, HTML5, CSS3, JavaScript (ES6+)</p>
               </div>
               <div class="skill-card">
                 <h3>Backend</h3>
-                <p>Node.js, Express, Python, REST APIs</p>
+                <p>Python, FastAPI</p>
               </div>
               <div class="skill-card">
-                <h3>Tools & Animation</h3>
-                <p>GSAP, Three.js, Canvas, WebGL</p>
+                <h3>Future Learning</h3>
+                <p>PHP, Laravel, Nix</p>
+              </div>
+              <div class="skill-card">
+                <h3>Testing</h3>
+                <p>Django Unittest, Pytest, Vitest</p>
               </div>
               <div class="skill-card">
                 <h3>Other</h3>
