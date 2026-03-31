@@ -175,6 +175,7 @@ def health_check() -> dict[str, bool | str]:
 def submit_contact_form(submission: ContactSubmission) -> ContactResponse:
     try:
         submission_id, received_at = persist_submission(submission)
+        logger.info("Submission persisted: %s", submission_id)
     except OSError as error:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -184,9 +185,12 @@ def submit_contact_form(submission: ContactSubmission) -> ContactResponse:
     if email_delivery_enabled():
         try:
             send_submission_email(submission, submission_id, received_at)
+            logger.info("Email notification sent for submission %s", submission_id)
         except (OSError, smtplib.SMTPException) as error:
             # Do not fail the request after persistence; email notifications are best-effort.
             logger.exception("Email notification failed for submission %s", submission_id)
+    else:
+        logger.warning("Email delivery disabled for submission %s", submission_id)
 
     return ContactResponse(
         message="Message received successfully.",
