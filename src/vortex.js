@@ -247,15 +247,12 @@ class TimeVortex {
 
   generateEnergyWaves(container) {
     const wavesContainer = document.getElementById('vortex-energy-waves');
-    wavesContainer.innerHTML = '';
 
-    for (let i = 0; i < 6; i++) {
-      const wave = document.createElement('div');
-      wave.className = 'energy-wave';
-      wave.style.animationDelay = (i * 0.3) + 's';
-      wave.style.transform = `rotate(${i * 60}deg)`;
-      wavesContainer.appendChild(wave);
+    if (!wavesContainer) {
+      return;
     }
+
+    wavesContainer.innerHTML = '';
   }
 }
 
