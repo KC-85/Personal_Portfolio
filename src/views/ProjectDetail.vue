@@ -6,8 +6,10 @@
         <router-link to="/projects">← Back to Projects</router-link>
       </div>
       <div class="project-hero">
-        <h1 class="project-title">{{ project.title }}</h1>
-        <p class="project-subtitle">{{ project.description }}</p>
+        <h1 class="project-title">{{ project ? project.title : 'Project Not Found' }}</h1>
+        <p class="project-subtitle">
+          {{ project ? project.description : 'The project you requested does not exist.' }}
+        </p>
       </div>
     </section>
 
@@ -70,73 +72,14 @@
 </template>
 
 <script>
+import { projects } from '../data/projects'
+
 export default {
   name: 'ProjectDetail',
   props: ['id'],
   data() {
     return {
-      projects: [
-        {
-          id: 1,
-          title: 'Interactive 3D Portfolio',
-          description: 'A stunning 3D portfolio built with Three.js and Vue.js featuring interactive elements and smooth animations.',
-          category: 'Three.js',
-          tags: ['Three.js', 'Vue.js', 'WebGL', '3D Graphics'],
-          longDescription: 'This project showcases advanced 3D web development techniques using Three.js and Vue.js. Features include interactive camera controls, particle systems, and optimized rendering for smooth performance across devices. The application demonstrates modern web graphics capabilities with real-time 3D rendering and user interaction.',
-          technologies: ['Three.js', 'Vue.js', 'WebGL', 'JavaScript', 'GLSL Shaders'],
-          features: ['Interactive 3D scenes', 'Particle animations', 'Responsive design', 'Performance optimization', 'Camera controls', 'Lighting effects'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        },
-        {
-          id: 2,
-          title: 'Vue.js Dashboard',
-          description: 'Modern admin dashboard with real-time data visualization and interactive charts.',
-          category: 'Vue.js',
-          tags: ['Vue.js', 'Chart.js', 'API', 'Dashboard'],
-          longDescription: 'A comprehensive admin dashboard built with Vue.js featuring real-time data updates, interactive charts, and a responsive design. Includes user authentication, data management, and analytics features. The dashboard provides insights through various chart types and data visualizations.',
-          technologies: ['Vue.js', 'Chart.js', 'Axios', 'Vue Router', 'Pinia'],
-          features: ['Real-time data updates', 'Interactive charts', 'User authentication', 'Responsive layout', 'Data filtering', 'Export functionality'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        },
-        {
-          id: 3,
-          title: 'GSAP Animation Library',
-          description: 'Custom animation library for smooth web interactions and micro-animations.',
-          category: 'Animation',
-          tags: ['GSAP', 'JavaScript', 'Animation', 'Performance'],
-          longDescription: 'A custom animation library built on top of GSAP (GreenSock Animation Platform) providing reusable animation components and smooth transitions for web applications. This library includes various animation presets and utilities for creating engaging user experiences.',
-          technologies: ['GSAP', 'JavaScript', 'CSS', 'SVG', 'Canvas'],
-          features: ['Smooth animations', 'Reusable components', 'Performance optimized', 'Cross-browser support', 'Animation presets', 'Timeline controls'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        },
-        {
-          id: 4,
-          title: 'WebGL Particle System',
-          description: 'GPU-accelerated particle effects for modern web applications.',
-          category: 'WebGL',
-          tags: ['WebGL', 'Shaders', 'Performance', '3D'],
-          longDescription: 'High-performance particle system built with WebGL and custom shaders. Features include dynamic particle generation, physics simulation, and optimized rendering techniques. This system demonstrates advanced GPU programming and real-time graphics processing.',
-          technologies: ['WebGL', 'GLSL', 'JavaScript', 'Shaders', 'WebGL2'],
-          features: ['GPU acceleration', 'Custom shaders', 'Physics simulation', 'Performance monitoring', 'Particle effects', 'Real-time rendering'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        },
-        {
-          id: 5,
-          title: 'Vue Component Library',
-          description: 'Reusable Vue components for rapid development and consistent UI.',
-          category: 'Vue.js',
-          tags: ['Vue.js', 'Components', 'Design System', 'UI'],
-          longDescription: 'A comprehensive component library built with Vue.js featuring reusable UI components, consistent design system, and accessibility features for rapid application development. Includes form components, navigation elements, and data display components.',
-          technologies: ['Vue.js', 'SCSS', 'Storybook', 'Jest', 'TypeScript'],
-          features: ['Reusable components', 'Design system', 'Accessibility compliance', 'Testing suite', 'Documentation', 'Theme support'],
-          githubUrl: 'https://github.com',
-          liveUrl: 'https://example.com'
-        }
-      ]
+      projects
     }
   },
   computed: {
