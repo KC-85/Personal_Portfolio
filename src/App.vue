@@ -19,7 +19,6 @@
         <router-link to="/" class="logo">KC</router-link>
         <ul class="nav-links">
           <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/projects">Projects</router-link></li>
           <li>
             <button type="button" class="nav-link-button" @click="scrollToSection('contact')">Contact</button>
           </li>
