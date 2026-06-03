@@ -1,30 +1,48 @@
 // Time Vortex Transition Effect
+// Vanilla CSS animations + SVG rings (no Three.js or GSAP required)
 
 class TimeVortex {
   constructor() {
     this.isAnimating = false;
     this.animationDuration = 2500;
     this.resetDelay = 300;
+    this.navigationTimeout = null;
     this.cleanupTimeout = null;
+    
+    // Track event listeners for proper cleanup
+    this.eventListeners = [];
+    
     this.init();
   }
 
   init() {
-    this.createVortexContainer();
-    this.attachProjectLinkListeners();
-    // Use event delegation for dynamic links
-    this.attachEventDelegation();
+    // Only initialize if DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        this.createVortexContainer();
+        this.attachProjectLinkListeners();
+      });
+    } else {
+      this.createVortexContainer();
+      this.attachProjectLinkListeners();
+    }
   }
 
   attachEventDelegation() {
-    document.addEventListener('click', (e) => {
+    const handler = (e) => {
       const link = e.target.closest('a[href*="project"]');
       if (link && link.getAttribute('href').includes('project')) {
         e.preventDefault();
-        const url = link.getAttribute('href');
-        this.triggerVortex(url);
+        // Don't navigate via location.href - emit event instead
+        const event = new CustomEvent('vortex:project-click', {
+          detail: { href: link.getAttribute('href') }
+        });
+        document.dispatchEvent(event);
       }
-    });
+    };
+    
+    document.addEventListener('click', handler);
+    this.eventListeners.push({ type: 'click', handler, target: document });
   }
 
   createVortexContainer() {
@@ -52,69 +70,77 @@ class TimeVortex {
   }
 
   attachProjectLinkListeners() {
-    // Get all project links - more flexible selector
-    const projectLinks = document.querySelectorAll(
-      'a[href*="project"]'
-    );
-
+    const handler = (e) => {
+      const href = e.currentTarget.getAttribute('href');
+      if (href && href.includes('project')) {
+        e.preventDefault();
+        // Emit event instead of triggering vortex directly
+        const event = new CustomEvent('vortex:project-click', {
+          detail: { href }
+        });
+        document.dispatchEvent(event);
+      }
+    };
+    
+    const projectLinks = document.querySelectorAll('a[href*="project"]');
     projectLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        // Only prevent default if it's actually a project page link
-        const href = link.getAttribute('href');
-        if (href && href.includes('project')) {
-          e.preventDefault();
-          this.triggerVortex(href);
-        }
-      });
+      link.addEventListener('click', handler);
+      this.eventListeners.push({ type: 'click', handler, target: link });
     });
   }
 
-  triggerVortex(url, callback) {
-    if (this.isAnimating) return;
-    this.isAnimating = true;
+  triggerVortex(callback) {
+    // Prevent multiple simultaneous animations
+    if (this.isAnimating) {
+      console.warn('Vortex animation already in progress, ignoring trigger');
+      return;
+    }
+
+    // Validate callback is provided or a function
+    if (callback && typeof callback !== 'function') {
+      console.error('triggerVortex callback must be a function');
+      return;
+    }
 
     const container = document.getElementById('vortex-container');
     const flash = document.getElementById('vortex-flash');
     const particlesContainer = document.getElementById('vortex-particles');
 
+    // Graceful fallback if elements don't exist
     if (!container || !flash || !particlesContainer) {
-      this.isAnimating = false;
+      console.warn('Vortex DOM elements not found');
       if (typeof callback === 'function') {
         callback();
-      } else if (url) {
-        window.location.href = url;
       }
       return;
     }
 
-    clearTimeout(this.cleanupTimeout);
+    this.isAnimating = true;
 
-    // Clear previous particles
+    // Clear any pending timeouts to ensure fresh state
+    this.clearPendingTimeouts();
+
+    // Clear previous animation state
     particlesContainer.innerHTML = '';
     this.clearVortexRings(container);
     this.resetFlashAnimation(flash);
 
-    // Activate vortex
+    // Activate vortex animation
     container.classList.add('active');
     flash.classList.add('active');
 
-    // Generate particles
+    // Generate visual effects
     this.generateParticles(particlesContainer);
-
-    // Generate energy waves
     this.generateEnergyWaves(container);
-
-    // Create SVG rings for visual effect
     this.createVortexRings(container);
 
-    // Navigate after animation (either callback or url)
-    setTimeout(() => {
+    // Execute callback and reset after animation completes
+    this.navigationTimeout = setTimeout(() => {
       if (typeof callback === 'function') {
         callback();
-      } else if (url) {
-        window.location.href = url;
       }
 
+      // Schedule cleanup with delay
       this.cleanupTimeout = setTimeout(() => {
         this.resetVortex();
       }, this.resetDelay);
@@ -129,7 +155,18 @@ class TimeVortex {
 
   resetFlashAnimation(flash) {
     flash.classList.remove('active');
-    void flash.offsetWidth;
+    void flash.offsetWidth; // Trigger reflow
+  }
+
+  clearPendingTimeouts() {
+    if (this.navigationTimeout) {
+      clearTimeout(this.navigationTimeout);
+      this.navigationTimeout = null;
+    }
+    if (this.cleanupTimeout) {
+      clearTimeout(this.cleanupTimeout);
+      this.cleanupTimeout = null;
+    }
   }
 
   resetVortex() {
@@ -138,6 +175,7 @@ class TimeVortex {
     const particlesContainer = document.getElementById('vortex-particles');
     const wavesContainer = document.getElementById('vortex-energy-waves');
 
+    // Remove active states
     if (container) {
       container.classList.remove('active');
       this.clearVortexRings(container);
@@ -147,16 +185,43 @@ class TimeVortex {
       flash.classList.remove('active');
     }
 
+    // Clear particle elements
     if (particlesContainer) {
       particlesContainer.innerHTML = '';
     }
 
+    // Clear wave elements
     if (wavesContainer) {
       wavesContainer.innerHTML = '';
     }
 
+    // Reset state
     this.isAnimating = false;
-    this.cleanupTimeout = null;
+    this.clearPendingTimeouts();
+  }
+
+  /**
+   * Destroy the vortex instance and clean up all event listeners
+   * Call this when unmounting from the app or before recreation
+   */
+  destroy() {
+    // Clear any pending animations
+    this.resetVortex();
+    this.clearPendingTimeouts();
+
+    // Remove all tracked event listeners
+    this.eventListeners.forEach(({ type, handler, target }) => {
+      target.removeEventListener(type, handler);
+    });
+    this.eventListeners = [];
+
+    // Remove DOM elements if they exist
+    const container = document.getElementById('vortex-container');
+    const flash = document.getElementById('vortex-flash');
+    if (container) container.remove();
+    if (flash) flash.remove();
+
+    console.log('TimeVortex instance destroyed and cleaned up');
   }
 
   generateParticles(container) {
@@ -257,12 +322,12 @@ class TimeVortex {
 }
 
 // Initialize on page load
-  if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', function() {
-      // expose instance so other scripts can trigger the vortex
-      window._timeVortex = new TimeVortex();
-    });
-  }
+if (typeof window !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', function() {
+    // Expose instance so Vue components can trigger the vortex via callbacks
+    window._timeVortex = new TimeVortex();
+  });
+}
 
 // export for module use
 export { TimeVortex };
