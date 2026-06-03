@@ -33,7 +33,7 @@
               </div>
               <div class="skill-card">
                 <h3>Backend</h3>
-                <p>Python, FastAPI</p>
+                <p>Python, Django, FastAPI</p>
               </div>
               <div class="skill-card">
                 <h3>Future Learning</h3>
@@ -61,9 +61,9 @@
           <div class="contact-info">
             <p>I'm always interested in new opportunities and exciting projects.</p>
             <div class="contact-links">
-              <a href="https://github.com" target="_blank">GitHub</a>
+              <a href="https://github.com/KC-85" target="_blank">GitHub</a>
               <a href="https://linkedin.com" target="_blank">LinkedIn</a>
-              <a href="mailto:contact@example.com">Email</a>
+              <a href="mailto:kristian.d.cross@gmail.com">Email</a>
             </div>
           </div>
           <ContactForm />
@@ -91,14 +91,14 @@ export default {
       }
     },
     goToProjects() {
-      // trigger vortex animation then navigate
+      // Trigger vortex animation then navigate to projects
       if (window._timeVortex) {
-        window._timeVortex.triggerVortex(null, () => {
-          this.$router.push('/projects');
-        });
+        window._timeVortex.triggerVortex(() => {
+          this.$router.push('/projects')
+        })
       } else {
-        // fallback
-        this.$router.push('/projects');
+        // Fallback if vortex not initialized
+        this.$router.push('/projects')
       }
     }
   }

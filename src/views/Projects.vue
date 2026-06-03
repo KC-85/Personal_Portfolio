@@ -67,11 +67,13 @@ export default {
   },
   methods: {
     openProject(id) {
+      // Trigger vortex animation then navigate to project detail
       if (window._timeVortex) {
-        window._timeVortex.triggerVortex(null, () => {
+        window._timeVortex.triggerVortex(() => {
           this.$router.push(`/projects/${id}`)
         })
       } else {
+        // Fallback if vortex not initialized
         this.$router.push(`/projects/${id}`)
       }
     }
