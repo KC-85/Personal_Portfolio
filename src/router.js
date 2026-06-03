@@ -34,4 +34,20 @@ const router = createRouter({
   }
 })
 
+// Reset vortex animation on every route change
+router.beforeEach((to, from, next) => {
+  // Skip if this is the initial navigation
+  if (from.name === null && to.name === 'Home') {
+    next()
+    return
+  }
+
+  // Reset vortex if animation is in progress or has artifacts
+  if (typeof window !== 'undefined' && window._timeVortex) {
+    window._timeVortex.resetVortex()
+  }
+
+  next()
+})
+
 export default router
