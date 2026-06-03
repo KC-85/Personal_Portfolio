@@ -93,15 +93,38 @@ def send_submission_email(submission: ContactSubmission, submission_id: str, rec
     recipient_email = os.getenv("CONTACT_RECIPIENT_EMAIL", "").strip()
     smtp_host = os.getenv("CONTACT_SMTP_HOST", "").strip()
     from_email = os.getenv("CONTACT_FROM_EMAIL", "").strip()
-    smtp_port = int(os.getenv("CONTACT_SMTP_PORT", "587"))
     smtp_username = os.getenv("CONTACT_SMTP_USERNAME", "").strip()
-    smtp_password = os.getenv("CONTACT_SMTP_PASSWORD", "")
+    smtp_password = os.getenv("CONTACT_SMTP_PASSWORD", "").strip()
     from_name = os.getenv("CONTACT_FROM_NAME", "Portfolio Contact Form").strip()
     use_starttls = env_flag("CONTACT_SMTP_USE_STARTTLS", True)
 
+    # Parse SMTP port safely
+    try:
+        smtp_port = int(os.getenv("CONTACT_SMTP_PORT", "587"))
+    except ValueError:
+        logger.error("Invalid CONTACT_SMTP_PORT value, using default 587")
+        smtp_port = 587
+
+    # Validate required configuration
     if not recipient_email or not smtp_host or not from_email:
+        logger.error(
+            "Email delivery misconfigured. Missing required environment variables: "
+            "recipient_email=%s, smtp_host=%s, from_email=%s",
+            "✓" if recipient_email else "✗",
+            "✓" if smtp_host else "✗",
+            "✓" if from_email else "✗",
+        )
         return
 
+    # Security: Require STARTTLS if credentials are provided
+    if (smtp_username or smtp_password) and not use_starttls:
+        logger.error(
+            "Insecure email configuration: STARTTLS required when credentials are provided. "
+            "Set CONTACT_SMTP_USE_STARTTLS=true or remove credentials."
+        )
+        return
+
+    # Build email message
     email_message = EmailMessage()
     email_message["Subject"] = f"New portfolio contact: {submission.subject}"
     email_message["From"] = f"{from_name} <{from_email}>"
@@ -124,14 +147,41 @@ def send_submission_email(submission: ContactSubmission, submission_id: str, rec
         )
     )
 
-    with smtplib.SMTP(smtp_host, smtp_port, timeout=30) as smtp:
-        smtp.ehlo()
-        if use_starttls:
-            smtp.starttls()
-            smtp.ehlo()
-        if smtp_username:
-            smtp.login(smtp_username, smtp_password)
-        smtp.send_message(email_message)
+    # Send email with detailed error context
+    try:
+        with smtplib.SMTP(smtp_host, smtp_port, timeout=30) as smtp:
+            try:
+                smtp.ehlo()
+            except smtplib.SMTPException as e:
+                logger.error("SMTP EHLO failed: %s", str(e))
+                raise
+
+            if use_starttls:
+                try:
+                    smtp.starttls()
+                    smtp.ehlo()
+                except smtplib.SMTPException as e:
+                    logger.error("SMTP STARTTLS negotiation failed: %s", str(e))
+                    raise
+
+            if smtp_username:
+                try:
+                    smtp.login(smtp_username, smtp_password)
+                except smtplib.SMTPAuthenticationError as e:
+                    logger.error("SMTP authentication failed for user %s: %s", smtp_username, str(e))
+                    raise
+                except smtplib.SMTPException as e:
+                    logger.error("SMTP login error: %s", str(e))
+                    raise
+
+            try:
+                smtp.send_message(email_message)
+            except smtplib.SMTPException as e:
+                logger.error("SMTP send failed: %s", str(e))
+                raise
+    except (smtplib.SMTPException, OSError) as e:
+        logger.exception("Email delivery failed for submission %s: %s", submission_id, str(e))
+        raise
 
 
 def persist_submission(submission: ContactSubmission) -> tuple[str, str]:
