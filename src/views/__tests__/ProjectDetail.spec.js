@@ -14,9 +14,9 @@ describe('ProjectDetail view', () => {
       }
     })
 
-    expect(wrapper.text()).toContain('Vue.js Dashboard')
+    expect(wrapper.text()).toContain('World Wide Weather')
     expect(wrapper.text()).toContain('Technologies Used')
-    expect(wrapper.text()).toContain('Real-time data')
+    expect(wrapper.text()).toContain('Location search')
   })
 
   it('shows a fallback when the project id is unknown', () => {

@@ -19,7 +19,13 @@
         <!-- Project Visual -->
         <div class="project-visual">
           <div class="project-image-large">
-            <div class="project-placeholder-large">
+            <img
+              v-if="project.image"
+              :src="project.image"
+              :alt="project.title"
+              class="project-image-large-element"
+            />
+            <div v-else class="project-placeholder-large">
               <span>{{ project.title }}</span>
             </div>
           </div>
@@ -146,6 +152,13 @@ export default {
   height: 400px;
   border-radius: 10px;
   overflow: hidden;
+}
+
+.project-image-large-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .project-placeholder-large {

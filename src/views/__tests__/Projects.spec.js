@@ -13,12 +13,12 @@ describe('Projects view', () => {
 
     expect(wrapper.findAll('.project-card-link')).toHaveLength(5)
 
-    const vueButton = wrapper.findAll('button').find((button) => button.text() === 'Vue.js')
-    await vueButton.trigger('click')
+    const djangoButton = wrapper.findAll('button').find((button) => button.text() === 'Django')
+    await djangoButton.trigger('click')
 
-    expect(wrapper.vm.activeCategory).toBe('Vue.js')
+    expect(wrapper.vm.activeCategory).toBe('Django')
     expect(wrapper.findAll('.project-card-link')).toHaveLength(2)
-    expect(wrapper.text()).toContain('Vue.js Dashboard')
-    expect(wrapper.text()).toContain('Vue Component Library')
+    expect(wrapper.text()).toContain('Joystick Journalist')
+    expect(wrapper.text()).toContain('Modern Classics')
   })
 })

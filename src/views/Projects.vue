@@ -34,7 +34,13 @@
           >
             <div class="project-card">
               <div class="project-image">
-                <div class="project-placeholder">
+                <img
+                  v-if="project.image"
+                  :src="project.image"
+                  :alt="project.title"
+                  class="project-image-element"
+                />
+                <div v-else class="project-placeholder">
                   <span>{{ project.title }}</span>
                 </div>
               </div>
@@ -83,7 +89,7 @@ export default {
       if (this.activeCategory === 'All') {
         return this.projects
       }
-      return this.projects.filter(project => project.category === this.activeCategory)
+      return this.projects.filter(project => project.categories.includes(this.activeCategory))
     }
   }
 }
@@ -196,6 +202,20 @@ export default {
 .project-image {
   height: 200px;
   overflow: hidden;
+}
+
+.project-image-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .project-placeholder {
