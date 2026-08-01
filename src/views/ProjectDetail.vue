@@ -53,11 +53,23 @@
           </div>
 
           <!-- Links -->
-          <div class="project-links">
-            <a :href="project.githubUrl" target="_blank" class="btn btn-primary">
+          <div v-if="project.githubUrl || project.liveUrl" class="project-links">
+            <a
+              v-if="project.githubUrl"
+              :href="project.githubUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+            >
               <span>View on GitHub</span>
             </a>
-            <a :href="project.liveUrl" target="_blank" class="btn btn-secondary">
+            <a
+              v-if="project.liveUrl"
+              :href="project.liveUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary"
+            >
               <span>Live Demo</span>
             </a>
           </div>

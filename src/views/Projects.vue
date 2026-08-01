@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       activeCategory: 'All',
-      categories: ['All', 'HTML', 'CSS', 'JavaScript', 'jQuery', 'Vue.js', 'Python', 'Django', 'FastAPI'],
+      categories: ['All', 'HTML', 'CSS', 'JavaScript', 'TypeScript', 'jQuery', 'Vue.js', 'Python', 'Django', 'FastAPI', 'PostgreSQL', 'PostGIS', 'SQLite3', 'Tailwind CSS', 'HTMX'],
       projects
     }
   },

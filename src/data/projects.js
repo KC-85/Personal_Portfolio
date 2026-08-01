@@ -63,5 +63,44 @@ export const projects = [
     features: ['Product listings', 'Shopping cart', 'User authentication', 'Payment processing'],
     githubUrl: 'https://github.com',
     liveUrl: 'https://modern-classics-b10468fd6f55.herokuapp.com/'
+  },
+  {
+    id: 6,
+    title: 'UK Weather Forecast',
+    description: 'A location-aware UK weather forecast application using trusted geographic and meteorological data.',
+    categories: ['Python', 'Django', 'PostGIS', 'TypeScript', 'Tailwind CSS', 'HTMX'],
+    tags: ['Python', 'Django', 'PostGIS', 'TypeScript', 'Tailwind CSS', 'HTMX'],
+    image: null,
+    longDescription: 'A full-stack UK weather application that combines Ordnance Survey location data with Open-Meteo forecasts. Django, Python, and PostGIS power the geospatial backend, while TypeScript, Tailwind CSS, and HTMX provide a responsive, interactive frontend.',
+    technologies: ['Python', 'Django', 'PostGIS', 'TypeScript', 'Tailwind CSS', 'HTMX', 'Ordnance Survey', 'Open-Meteo'],
+    features: ['UK location search', 'PostGIS-powered geospatial data', 'Current weather and forecast data', 'HTMX-powered page updates', 'Responsive Tailwind CSS interface', 'Ordnance Survey and Open-Meteo integrations'],
+    githubUrl: null,
+    liveUrl: null
+  },
+  {
+    id: 7,
+    title: 'Joystick Journalist Rebuild',
+    description: 'A modern rebuild of the 90s game review site using Django, TypeScript, and Tailwind CSS.',
+    categories: ['Django', 'PostgreSQL', 'TypeScript', 'Tailwind CSS'],
+    tags: ['Django', 'PostgreSQL', 'TypeScript', 'Tailwind CSS', 'Game Reviews'],
+    image: null,
+    longDescription: 'A ground-up rebuild of Joystick Journalist that retains the original 1990s game-review concept while modernising its architecture and interface. Django and PostgreSQL power the application, with TypeScript and Tailwind CSS replacing the original JavaScript and custom CSS approach.',
+    technologies: ['Django', 'Python', 'PostgreSQL', 'TypeScript', 'Tailwind CSS'],
+    features: ['Modernised game review experience', 'Django-powered application', 'PostgreSQL data persistence', 'Type-safe frontend interactions', 'Responsive Tailwind CSS interface', 'Retro-inspired presentation'],
+    githubUrl: null,
+    liveUrl: null
+  },
+  {
+    id: 8,
+    title: 'NetSkrape',
+    description: 'A basic web scraper that collects and stores web data using Python and SQLite3.',
+    categories: ['Python', 'SQLite3'],
+    tags: ['Python', 'SQLite3', 'Web Scraping'],
+    image: null,
+    longDescription: 'A lightweight web-scraping application built with Python. NetSkrape extracts structured information from web pages and stores the collected data locally in an SQLite3 database.',
+    technologies: ['Python', 'SQLite3'],
+    features: ['Web page data extraction', 'Structured data collection', 'SQLite3 data persistence', 'Lightweight local storage'],
+    githubUrl: null,
+    liveUrl: null
   }
 ]

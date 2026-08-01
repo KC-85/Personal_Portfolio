@@ -34,4 +34,21 @@ describe('ProjectDetail view', () => {
     expect(wrapper.text()).toContain('Project Not Found')
     expect(wrapper.text()).toContain('Back to Projects')
   })
+
+  it('renders projects without publishing unavailable links', () => {
+    const wrapper = mount(ProjectDetail, {
+      props: {
+        id: '6'
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
+
+    expect(wrapper.text()).toContain('UK Weather Forecast')
+    expect(wrapper.text()).toContain('Ordnance Survey')
+    expect(wrapper.find('.project-links').exists()).toBe(false)
+  })
 })
