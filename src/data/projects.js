@@ -84,7 +84,7 @@ export const projects = [
     categories: ['Python', 'Django', 'PostGIS', 'TypeScript', 'Tailwind CSS', 'HTMX'],
     tags: ['Python', 'Django', 'PostGIS', 'TypeScript', 'Tailwind CSS', 'HTMX'],
     image: null,
-    longDescription: 'A full-stack UK weather application that combines Ordnance Survey location data with Open-Meteo forecasts. Django, Python, and PostGIS power the geospatial backend, while TypeScript, Tailwind CSS, and HTMX provide a responsive, interactive frontend.',
+    longDescription: 'A full-stack UK weather application that combines Ordnance Survey location data with Open-Meteo forecasts. Django, Python, and PostGIS power the geospatial backend, while TypeScript, Tailwind CSS, and HTMX provide a responsive, interactive frontend. Currently in development, this project aims to deliver accurate weather information with a seamless user experience.',
     technologies: ['Python', 'Django', 'PostGIS', 'TypeScript', 'Tailwind CSS', 'HTMX', 'Ordnance Survey', 'Open-Meteo'],
     features: ['UK location search', 'PostGIS-powered geospatial data', 'Current weather and forecast data', 'HTMX-powered page updates', 'Responsive Tailwind CSS interface', 'Ordnance Survey and Open-Meteo integrations'],
     githubUrl: 'https://github.com/KC-85/UK-Weather',

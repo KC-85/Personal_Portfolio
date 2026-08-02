@@ -151,13 +151,7 @@ export default {
   },
   methods: {
     openProject(id) {
-      if (window._timeVortex) {
-        window._timeVortex.triggerVortex(() => {
-          this.$router.push(`/projects/${id}`)
-        })
-      } else {
-        this.$router.push(`/projects/${id}`)
-      }
+      this.$router.push(`/projects/${id}`)
     },
     formatProjectNumber(id) {
       return String(id).padStart(2, '0')

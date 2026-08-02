@@ -35,7 +35,7 @@ describe('ProjectDetail view', () => {
     expect(wrapper.text()).toContain('Back to Projects')
   })
 
-  it('renders projects without publishing unavailable links', () => {
+  it('renders available project links without publishing a missing live demo', () => {
     const wrapper = mount(ProjectDetail, {
       props: {
         id: '6'
@@ -49,6 +49,9 @@ describe('ProjectDetail view', () => {
 
     expect(wrapper.text()).toContain('UK Weather Forecast')
     expect(wrapper.text()).toContain('Ordnance Survey')
-    expect(wrapper.find('.project-links').exists()).toBe(false)
+    expect(wrapper.find('.project-links').exists()).toBe(true)
+    expect(wrapper.findAll('.project-links a')).toHaveLength(1)
+    expect(wrapper.get('.project-links a').attributes('href')).toBe('https://github.com/KC-85/UK-Weather')
+    expect(wrapper.text()).not.toContain('Live Demo')
   })
 })

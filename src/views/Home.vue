@@ -91,15 +91,7 @@ export default {
       }
     },
     goToProjects() {
-      // Trigger vortex animation then navigate to projects
-      if (window._timeVortex) {
-        window._timeVortex.triggerVortex(() => {
-          this.$router.push('/projects')
-        })
-      } else {
-        // Fallback if vortex not initialized
-        this.$router.push('/projects')
-      }
+      this.$router.push('/projects')
     }
   }
 }

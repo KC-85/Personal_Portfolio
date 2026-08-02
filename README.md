@@ -6,7 +6,7 @@ A full-stack personal portfolio built with Vue 3, Vite, FastAPI, and Playwright.
 
 - Vue 3 single-page app with hash-based routing
 - Home, projects, and project detail views
-- Animated portfolio experience with a custom vortex transition
+- Animated, responsive portfolio experience
 - Contact form with frontend validation and backend submission handling
 - FastAPI backend for contact storage and optional SMTP email delivery
 - Unit tests with Vitest and end-to-end tests with Playwright
@@ -108,7 +108,6 @@ If email settings are incomplete, contact submissions are still accepted and sav
 ## Notes
 
 - The app uses hash routing to avoid conflicts with legacy static files.
-- The vortex transition is implemented in `src/vortex.js` and reset automatically during navigation.
 - Project data lives in `src/data/projects.js` and the views under `src/views/`.
 
 ## Testing
