@@ -26,7 +26,7 @@ export const projects = [
     longDescription: 'A simple yet effective weather application that displays current conditions and forecasts for locations around the world.',
     technologies: ['jQuery', 'JSON', 'HTML5', 'CSS3'],
     features: ['Current weather display', 'Forecast information', 'Location search', 'Responsive design'],
-    githubUrl: 'https://github.com',
+    githubUrl: 'https://github.com/KC-85/World-Wide-Weather-App',
     liveUrl: 'https://kc-85.github.io/World-Wide-Weather-App/'
   },
   {
