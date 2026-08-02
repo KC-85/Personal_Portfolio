@@ -13,10 +13,10 @@ describe('Projects view', () => {
 
     expect(wrapper.findAll('.project-card-link')).toHaveLength(8)
 
-    const djangoButton = wrapper.findAll('button').find((button) => button.text() === 'Django')
-    await djangoButton.trigger('click')
+    const fullStackButton = wrapper.findAll('button').find((button) => button.text() === 'Full Stack')
+    await fullStackButton.trigger('click')
 
-    expect(wrapper.vm.activeCategory).toBe('Django')
+    expect(wrapper.vm.activeCategory).toBe('Full Stack')
     expect(wrapper.findAll('.project-card-link')).toHaveLength(4)
     expect(wrapper.text()).toContain('Joystick Journalist')
     expect(wrapper.text()).toContain('Modern Classics')

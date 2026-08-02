@@ -9,7 +9,7 @@ async function openProjectsFromHome(page) {
   await expect(page.locator('#spaceship-loader')).toBeHidden({ timeout: 7000 })
   await page.getByRole('button', { name: 'View My Work' }).click()
   await expect(page).toHaveURL(/#\/projects$/)
-  await expect(page.getByRole('heading', { name: 'My Projects' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Projects built with purpose.' })).toBeVisible()
 }
 
 test('home page renders and navigates to projects', async ({ page }) => {
@@ -22,25 +22,25 @@ test('projects page opens a project detail page', async ({ page }) => {
   await openProjectsFromHome(page)
   await page.locator('.project-card-link').first().click()
 
-  await expect(page).toHaveURL(/#\/projects\/1$/)
-  await expect(page.getByRole('heading', { name: 'Kinder Minds' })).toBeVisible()
+  await expect(page).toHaveURL(/#\/projects\/6$/)
+  await expect(page.getByRole('heading', { name: 'UK Weather Forecast' })).toBeVisible()
 })
 
 test('project routes work as direct deep links', async ({ page }) => {
   await gotoRoute(page, '/projects/2')
 
   await expect(page.locator('#spaceship-loader')).toBeHidden({ timeout: 7000 })
-  await expect(page.getByRole('heading', { name: 'Vue.js Dashboard' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'World Wide Weather' })).toBeVisible()
 })
 
 test('projects filter narrows visible cards', async ({ page }) => {
   await gotoRoute(page, '/projects')
 
   await expect(page.locator('#spaceship-loader')).toBeHidden({ timeout: 7000 })
-  await page.getByRole('button', { name: 'Vue.js' }).click()
+  await page.getByRole('button', { name: 'Full Stack' }).click()
 
-  await expect(page.locator('.project-card-link')).toHaveCount(2)
-  await expect(page.getByRole('heading', { name: 'Vue Component Library' })).toBeVisible()
+  await expect(page.locator('.project-card-link')).toHaveCount(4)
+  await expect(page.getByRole('heading', { name: 'Joystick Journalist Rebuild' })).toBeVisible()
 })
 
 test('contact navigation returns to the home contact section', async ({ page }) => {
