@@ -1,5 +1,7 @@
 # Personal Portfolio
 
+[![CI](https://github.com/KC-85/Personal_Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/KC-85/Personal_Portfolio/actions/workflows/ci.yml)
+
 A full-stack personal portfolio built with Vue 3, Vite, FastAPI, and Playwright. It presents a small set of portfolio projects, includes route-based project detail pages, and provides a contact form backed by a Python API that stores submissions locally and can send email notifications.
 
 ## Features
@@ -32,7 +34,7 @@ A full-stack personal portfolio built with Vue 3, Vite, FastAPI, and Playwright.
 
 ## Requirements
 
-- Node.js 18+ recommended
+- Node.js 24 recommended
 - Python 3.10+ recommended
 - npm for the frontend toolchain
 
@@ -111,6 +113,8 @@ If email settings are incomplete, contact submissions are still accepted and sav
 - Project data lives in `src/data/projects.js` and the views under `src/views/`.
 
 ## Testing
+
+GitHub Actions runs the backend checks, frontend unit tests, production build, and Playwright end-to-end suite on every push and pull request.
 
 Run the unit and end-to-end suites with:
 
