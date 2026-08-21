@@ -61,8 +61,12 @@
           <div class="contact-info">
             <p>I'm always interested in new opportunities and exciting projects.</p>
             <div class="contact-links">
-              <a href="https://github.com/KC-85" target="_blank">GitHub</a>
-              <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+              <a href="https://github.com/KC-85" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a
+                href="https://www.linkedin.com/in/kristian-cross/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >LinkedIn</a>
               <a href="mailto:kristian.d.cross@gmail.com?subject=Portfolio%20enquiry">Email Me</a>
             </div>
           </div>
