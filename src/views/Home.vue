@@ -63,10 +63,9 @@
             <div class="contact-links">
               <a href="https://github.com/KC-85" target="_blank">GitHub</a>
               <a href="https://linkedin.com" target="_blank">LinkedIn</a>
-              <a href="mailto:kristian.d.cross@gmail.com">Email</a>
+              <a href="mailto:kristian.d.cross@gmail.com?subject=Portfolio%20enquiry">Email Me</a>
             </div>
           </div>
-          <ContactForm />
         </div>
       </div>
     </section>
@@ -76,13 +75,8 @@
 </template>
 
 <script>
-import ContactForm from '../components/ContactForm.vue'
-
 export default {
   name: 'Home',
-  components: {
-    ContactForm
-  },
   methods: {
     scrollToSection(sectionId) {
       const element = document.getElementById(sectionId)
@@ -247,10 +241,10 @@ export default {
 
 .contact-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 3rem;
   align-items: start;
-  max-width: 1000px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -264,6 +258,7 @@ export default {
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .contact-links a {

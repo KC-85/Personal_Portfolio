@@ -1,9 +1,0 @@
-[project]
-name = "personal-portfolio-api"
-version = "1.0.0"
-description = "FastAPI contact endpoint for the personal portfolio"
-requires-python = ">=3.14,<3.15"
-dependencies = [
-    "fastapi==0.139.2",
-    "python-dotenv==1.2.2",
-]

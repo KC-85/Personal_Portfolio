@@ -35,11 +35,7 @@ playwright-report
 test-results
 blob-report
 
-# Python
+# Local Python environment (not part of the website)
 .venv
 __pycache__/
 *.pyc
-backend/data/*.jsonl
-.env.example
-.env
-.env.py
