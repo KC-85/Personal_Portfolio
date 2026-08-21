@@ -4,9 +4,9 @@
     <section id="home" class="hero">
       <div class="hero-content">
         <h1 class="hero-title">Kristian Cross</h1>
-        <p class="hero-subtitle">Web Developer | Creative Coder</p>
+        <p class="hero-subtitle">Web Developer</p>
         <p class="hero-description">
-          Building immersive digital experiences with HTML, CSS, JavaScript (ES6+/jQuery/Vue), Python, Django, FastAPI
+          Building immersive digital experiences with HTML, CSS, JavaScript (ES6+/jQuery/Vue), Typescript, Python, Django, FastAPI
         </p>
         <div class="hero-buttons">
           <button @click="goToProjects" class="btn btn-primary">View My Work</button>
@@ -29,7 +29,7 @@
             <div class="skills-grid">
               <div class="skill-card">
                 <h3>Frontend</h3>
-                <p>Vue.js, jQuery, HTML5, CSS3, JavaScript (ES6+)</p>
+                <p>Vue.js, jQuery, HTML5, CSS3, JavaScript (ES6+), Typescript</p>
               </div>
               <div class="skill-card">
                 <h3>Backend</h3>
@@ -37,7 +37,7 @@
               </div>
               <div class="skill-card">
                 <h3>Future Learning</h3>
-                <p>PHP, Laravel, Nix</p>
+                <p>Boot.dev</p>
               </div>
               <div class="skill-card">
                 <h3>Testing</h3>
