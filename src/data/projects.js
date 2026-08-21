@@ -120,10 +120,11 @@ export const projects = [
     githubUrl: 'https://github.com/KC-85/NetSkrape',
     liveUrl: null
   },
-  { id: 9,
+  {
+    id: 9,
     title: 'MH-Support',
     type: 'Mental Health Support Platform',
-    disciplines: ['React', 'Tailwind CSS'],
+    disciplines: ['Frontend'],
     description: 'A mental health support platform built with React and Tailwind CSS. Diploma project rebuild.',
     categories: ['React', 'Tailwind CSS'],
     tags: ['React', 'Tailwind CSS', 'Mental Health Support'],
