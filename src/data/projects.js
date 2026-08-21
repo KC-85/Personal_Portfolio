@@ -119,5 +119,19 @@ export const projects = [
     features: ['Web page data extraction', 'Structured data collection', 'SQLite3 data persistence', 'Lightweight local storage'],
     githubUrl: 'https://github.com/KC-85/NetSkrape',
     liveUrl: null
+  },
+  { id: 9,
+    title: 'MH-Support',
+    type: 'Mental Health Support Platform',
+    disciplines: ['React', 'Tailwind CSS'],
+    description: 'A mental health support platform built with React and Tailwind CSS. Diploma project rebuild.',
+    categories: ['React', 'Tailwind CSS'],
+    tags: ['React', 'Tailwind CSS', 'Mental Health Support'],
+    image: null,
+    longDescription: 'A modern mental health support platform that provides resources, community support, and educational content. Built with React for a dynamic user experience and styled with Tailwind CSS for a responsive design.',
+    technologies: ['React', 'Tailwind CSS'],
+    features: ['Resource library signposting', 'Responsive design'],
+    githubUrl: 'https://github.com/KC-85/MH-Support',
+    liveUrl: 'https://mh-support.vercel.app/'
   }
 ]
