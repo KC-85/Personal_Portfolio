@@ -80,6 +80,16 @@ def get_storage_path() -> Path:
     return DEFAULT_STORAGE_PATH
 
 
+def storage_enabled() -> bool:
+    configured = os.getenv("CONTACT_STORAGE_ENABLED")
+    if configured is not None:
+        return env_flag("CONTACT_STORAGE_ENABLED")
+
+    # Vercel Functions have an ephemeral filesystem. Default to email-only
+    # delivery there, while retaining JSONL storage for local development.
+    return not env_flag("VERCEL")
+
+
 def email_delivery_enabled() -> bool:
     required = [
         os.getenv("CONTACT_RECIPIENT_EMAIL"),
@@ -184,12 +194,18 @@ def send_submission_email(submission: ContactSubmission, submission_id: str, rec
         raise
 
 
-def persist_submission(submission: ContactSubmission) -> tuple[str, str]:
+def create_submission_metadata() -> tuple[str, str]:
+    return str(uuid4()), datetime.now(timezone.utc).isoformat()
+
+
+def persist_submission(
+    submission: ContactSubmission,
+    submission_id: str,
+    received_at: str,
+) -> None:
     storage_path = get_storage_path()
     storage_path.parent.mkdir(parents=True, exist_ok=True)
 
-    submission_id = str(uuid4())
-    received_at = datetime.now(timezone.utc).isoformat()
     payload = {
         "id": submission_id,
         "received_at": received_at,
@@ -199,10 +215,14 @@ def persist_submission(submission: ContactSubmission) -> tuple[str, str]:
     with storage_path.open("a", encoding="utf-8") as storage_file:
         storage_file.write(json.dumps(payload) + "\n")
 
-    return submission_id, received_at
 
-
-app = FastAPI(title="Portfolio Contact API", version="1.0.0")
+app = FastAPI(
+    title="Portfolio Contact API",
+    version="1.0.0",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json",
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -218,32 +238,53 @@ def health_check() -> dict[str, bool | str]:
     return {
         "status": "ok",
         "email_delivery_enabled": email_delivery_enabled(),
+        "storage_enabled": storage_enabled(),
     }
 
 
 @app.post("/api/contact", response_model=ContactResponse, status_code=status.HTTP_201_CREATED)
 def submit_contact_form(submission: ContactSubmission) -> ContactResponse:
-    try:
-        submission_id, received_at = persist_submission(submission)
-        logger.info("Submission persisted: %s", submission_id)
-    except OSError as error:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Unable to store your message right now.",
-        ) from error
+    should_store = storage_enabled()
+    should_email = email_delivery_enabled()
 
-    if email_delivery_enabled():
+    if not should_store and not should_email:
+        logger.error("Contact delivery is not configured")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Contact delivery is temporarily unavailable.",
+        )
+
+    submission_id, received_at = create_submission_metadata()
+    submission_persisted = False
+
+    if should_store:
+        try:
+            persist_submission(submission, submission_id, received_at)
+            submission_persisted = True
+            logger.info("Submission persisted: %s", submission_id)
+        except OSError as error:
+            if not should_email:
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Unable to store your message right now.",
+                ) from error
+            logger.exception("Submission persistence failed: %s", submission_id)
+
+    if should_email:
         try:
             send_submission_email(submission, submission_id, received_at)
             logger.info("Email notification sent for submission %s", submission_id)
         except (OSError, smtplib.SMTPException) as error:
             logger.exception("Email notification failed for submission %s", submission_id)
+            detail = (
+                "Message saved but email delivery failed."
+                if submission_persisted
+                else "Unable to deliver your message right now."
+            )
             raise HTTPException(
                 status_code=status.HTTP_502_BAD_GATEWAY,
-                detail=f"Message saved but email delivery failed: {error}",
+                detail=detail,
             ) from error
-    else:
-        logger.warning("Email delivery disabled for submission %s", submission_id)
 
     return ContactResponse(
         message="Message received successfully.",

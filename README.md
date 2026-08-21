@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/KC-85/Personal_Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/KC-85/Personal_Portfolio/actions/workflows/ci.yml)
 
-A full-stack personal portfolio built with Vue 3, Vite, FastAPI, and Playwright. It presents a small set of portfolio projects, includes route-based project detail pages, and provides a contact form backed by a Python API that stores submissions locally and can send email notifications.
+A full-stack personal portfolio built with Vue 3, Vite, FastAPI, and Playwright. It presents a small set of portfolio projects, includes route-based project detail pages, and provides a contact form backed by a Python API with local storage and SMTP email delivery.
 
 ## Features
 
@@ -25,6 +25,7 @@ A full-stack personal portfolio built with Vue 3, Vite, FastAPI, and Playwright.
 ```text
 .
 ├── src/                 # Vue app, views, router, styles, and animation logic
+├── api/                 # Vercel entry point for the FastAPI application
 ├── backend/             # FastAPI contact API and backend dependencies
 ├── tests/               # Playwright setup and E2E tests
 ├── public/              # Static assets
@@ -49,8 +50,8 @@ npm install
 Install the backend dependencies:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r backend/requirements.txt
 ```
 
@@ -90,7 +91,7 @@ npm run test:e2e:install # Install Chromium for Playwright
 
 The contact form posts to the backend API. In development, Vite proxies `/api` requests to `http://127.0.0.1:8000`.
 
-Submissions are stored as JSONL in `backend/data/contact_submissions.jsonl` unless `CONTACT_STORAGE_PATH` is set.
+During local development, submissions are stored as JSONL in `backend/data/contact_submissions.jsonl` unless `CONTACT_STORAGE_PATH` is set.
 
 Optional email delivery is enabled when these environment variables are configured:
 
@@ -105,7 +106,21 @@ CONTACT_SMTP_USE_STARTTLS=true
 CONTACT_FROM_NAME=Portfolio Contact Form
 ```
 
-If email settings are incomplete, contact submissions are still accepted and saved locally.
+If email settings are incomplete, contact submissions are still accepted and saved locally during development.
+
+## Deploying to Vercel
+
+The repository is configured as one Vercel project. Vite serves the frontend and `api/index.py` exposes FastAPI on the same domain under `/api/*`.
+
+1. Import the GitHub repository into Vercel.
+2. Keep the project root set to `./` and select the Vite framework preset.
+3. Use `npm run build` as the build command and `dist` as the output directory if Vercel does not detect them automatically.
+4. Add the SMTP environment variables listed above for Production, Preview, and Development as appropriate.
+5. Deploy, then verify `/`, `/api/health`, and `/api/docs` on the assigned `vercel.app` domain.
+
+Do not set `VITE_CONTACT_API_URL` on Vercel. The frontend uses the same-origin `/api/contact` endpoint by default.
+
+Vercel Functions do not provide durable local storage. The application therefore disables JSONL storage automatically when `VERCEL=1` and requires SMTP delivery to accept contact messages. A missing SMTP configuration returns `503` instead of silently discarding a submission. Set `CONTACT_STORAGE_ENABLED=true` only in an environment with durable storage.
 
 ## Notes
 
