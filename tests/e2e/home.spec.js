@@ -22,15 +22,23 @@ test('projects page opens a project detail page', async ({ page }) => {
   await openProjectsFromHome(page)
   await page.locator('.project-card-link').first().click()
 
-  await expect(page).toHaveURL(/#\/projects\/6$/)
+  await expect(page).toHaveURL(/#\/projects\/3$/)
   await expect(page.getByRole('heading', { name: 'UK Weather Forecast' })).toBeVisible()
 })
 
 test('project routes work as direct deep links', async ({ page }) => {
-  await gotoRoute(page, '/projects/2')
+  await gotoRoute(page, '/projects/1')
 
   await expect(page.locator('#spaceship-loader')).toBeHidden({ timeout: 7000 })
-  await expect(page.getByRole('heading', { name: 'World Wide Weather' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Checkout Girl' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'View on GitHub' })).toHaveAttribute(
+    'href',
+    'https://github.com/KC-85/Checkout-Girl'
+  )
+  await expect(page.getByRole('link', { name: 'Live Demo' })).toHaveAttribute(
+    'href',
+    'https://checkout-girl.vercel.app/'
+  )
 })
 
 test('projects filter narrows visible cards', async ({ page }) => {

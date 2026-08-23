@@ -31,6 +31,7 @@ describe('Projects view', () => {
     expect(wrapper.findAll('.project-card-link')).toHaveLength(
       projects.filter((project) => project.disciplines.includes('Frontend')).length
     )
+    expect(wrapper.text()).toContain('Checkout Girl')
     expect(wrapper.text()).toContain('MH-Support')
   })
 })

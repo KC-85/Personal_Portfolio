@@ -5,7 +5,7 @@ describe('ProjectDetail view', () => {
   it('renders the selected project content', () => {
     const wrapper = mount(ProjectDetail, {
       props: {
-        id: '2'
+        id: '1'
       },
       global: {
         stubs: {
@@ -14,9 +14,15 @@ describe('ProjectDetail view', () => {
       }
     })
 
-    expect(wrapper.text()).toContain('World Wide Weather')
+    expect(wrapper.text()).toContain('Checkout Girl')
     expect(wrapper.text()).toContain('Technologies Used')
-    expect(wrapper.text()).toContain('Location search')
+    expect(wrapper.text()).toContain('Music player integration')
+
+    const projectLinks = wrapper.findAll('.project-links a')
+    expect(projectLinks).toHaveLength(2)
+    expect(projectLinks[0].attributes('href')).toBe('https://github.com/KC-85/Checkout-Girl')
+    expect(projectLinks[1].attributes('href')).toBe('https://checkout-girl.vercel.app/')
+    expect(projectLinks[1].text()).toContain('Live Demo')
   })
 
   it('shows a fallback when the project id is unknown', () => {
@@ -38,7 +44,7 @@ describe('ProjectDetail view', () => {
   it('renders available project links without publishing a missing live demo', () => {
     const wrapper = mount(ProjectDetail, {
       props: {
-        id: '6'
+        id: '3'
       },
       global: {
         stubs: {
